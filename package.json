@@ -1,0 +1,17 @@
+{
+  "name": "lambda-function-boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx serverless invoke local --function hello"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "axios": "^1.8.4",
+    "serverless-dotenv-plugin": "^6.0.0"
+  }
+}

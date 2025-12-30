@@ -42,21 +42,44 @@ cd lambda-function-boilerplate
 npm install
 ```
 
-3. Create environment variables
+3. Manage environment variables (dev vs prod)
 
-- Copy `.env.example` to `.env` (create if missing) and set values for your environment.
-- The project uses `dotenv` and `serverless-dotenv-plugin` so env vars will be loaded for local dev and deployments.
+- Create separate files for each environment: **`.env.dev`** and **`.env.prod`** (you can copy from `.env.example` if present):
 
-Example:
+  ```bash
+  cp .env.example .env.dev
+  cp .env.example .env.prod
+  ```
 
-```
-# .env
-PORT=3000
-NODE_ENV=development
-# Add any API keys or secrets you need
-```
+- Development (local):
+  - For local work, copy `.env.dev` to `.env` before starting the app (or ensure your local tooling reads `.env.dev`):
 
-> Check `src/config/env.js` for how environment variables are loaded and used in the project.
+  ```bash
+  cp .env.dev .env
+  npm run dev
+  ```
+
+  - Example `.env.dev`:
+
+  ```ini
+  PORT=3000
+  NODE_ENV=development
+  # Add any API keys or non-sensitive values needed for dev
+  ```
+
+- Production (deployment):
+  - **Do not** commit `.env.prod` to source control. Keep production secrets in a secure store (CI/CD secrets, AWS SSM Parameter Store, or AWS Secrets Manager) and reference them in `serverless.prod.yml` (for example under `provider.environment`).
+  - If you need to test a production deploy locally, copy `.env.prod` to `.env` temporarily and be careful not to expose secrets:
+
+  ```bash
+  cp .env.prod .env
+  npm run prod:deploy
+  ```
+
+- Notes & tips:
+  - The project uses `dotenv` (and `serverless-dotenv-plugin`) which loads `.env` by default. You can configure `serverless-dotenv-plugin` in `serverless.*.yml` to load specific files per stage (e.g., `.env.dev`, `.env.prod`)—see the plugin docs for the `path` option.
+  - Check `src/config/env.js` to see how environment variables are loaded and used in the application.
+
 
 ---
 

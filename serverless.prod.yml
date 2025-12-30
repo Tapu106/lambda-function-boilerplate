@@ -1,0 +1,38 @@
+service: api-gateway-http-boilerplate
+
+# required for fetching env values from .env files
+useDotenv: true
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+provider:
+  runtime: nodejs22.x
+  memorySize: 128
+  timeout: 29
+  logRetentionInDays: 3
+  architecture: x86_64
+
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+
+  name: aws
+  stage: prod
+  region: us-east-1
+  tags:
+    boilerplate_lambda_with_api_gateway: PROD # configure your own tag for cost exploration.
+
+functions:
+  hello:
+    handler: src/handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+          private: true
+      - http:
+          path: /
+          method: ANY
+          cors: true
+          private: true

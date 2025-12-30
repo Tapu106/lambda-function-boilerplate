@@ -4,14 +4,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx serverless invoke local --function hello"
+    "dev": "nodemon handler.js",
+    "dev:deploy": "npx sls deploy -c serverless.dev.yml",
+    "prod:deploy": "npx sls deploy -c serverless.prod.yml",
+    "dev:offline":"npx sls offline -c serverless.dev.yml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "axios": "^1.8.4",
-    "serverless-dotenv-plugin": "^6.0.0"
+    "nodemon": "^3.1.10",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^14.4.0"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "serverless-http": "^3.2.0"
   }
 }
